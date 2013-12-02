@@ -1,0 +1,59 @@
+body {
+    padding-bottom: 50px;
+}
+
+#tcmi {
+    position:   fixed;
+    bottom:     0;
+    width:      100%;
+    height:     28px;
+    line-height: 28px;
+    background: #004200;
+    border-top: 1px solid #fff;
+    padding:    4px 0;
+    z-index:    100;
+    text-align: center;
+}
+
+#tcmi > * {
+    display:        inline-block;
+    vertical-align: middle;
+}
+
+.tcmi_logo {
+    position:       absolute;
+    left:           8px;
+    width:          134px;
+    height:         28px;
+    overflow:       hidden;
+    text-indent:    -999em;
+    background:     transparent url('/static/assets/tcmi/images/classic-logo.gif') no-repeat 0 0; 
+}
+
+#tcmi.playing .tcmi_logo {
+    background-position:    0 -28px;
+}
+
+.tcmi_select {
+    background:     #004200;
+    color:          #fff;
+    border:         1px solid #fff;
+}
+
+.tcmi_play, .tcmi_pause {
+    position:       absolute;
+    cursor:         pointer;
+    cursor:         hand;
+    right:          8px;
+    width:          86px;
+    height:         22px;
+    top:            50%;
+    margin-top:     -11px;
+    border:         0;
+    overflow:       hidden;
+    text-indent:    -999em;
+    background:     transparent url('/static/assets/tcmi/images/classic-controls.gif') no-repeat 0 0; 
+}
+.tcmi_pause {
+    background-position:    0 -22px;
+}
