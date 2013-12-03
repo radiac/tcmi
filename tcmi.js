@@ -26,6 +26,16 @@
             // Set this to false if your site already does this
             singlePage: true,
             
+            // String, RegExp or function to match if a link should be hijacked
+            // Set to null to allow all
+            // A negative response will make the link load normally
+            singleFilter: new RegExp('(/|(^|/)[^\\.]+|\\.html?|\\.php)($|\\?)'),
+            
+            // Reverse of singleFilter
+            // Set to null to allow all
+            // A positive response will make the link load normally
+            singleExclude: null,
+            
             // Auto play the first track
             autoPlay: true,
             
@@ -158,6 +168,29 @@
                 // Ignore if not an href link, or an external href
                 if (!this.href || this.href.indexOf(domain) === -1) {
                     return;
+                }
+                
+                // Only allow urls which match singleFilter
+                // Naieve test suits our purpose
+                if (typeof(thisTCMI.singleFilter) == "function") {
+                    if (!thisTCMI.singleFilter(this.href)) {
+                        return;
+                    }
+                } else if (thisTCMI.singleFilter !== null) {
+                    if (!this.href.match(thisTCMI.singleFilter)) {
+                        return;
+                    }
+                }
+                
+                // Exclude urls which match singleExclude
+                if (typeof(thisTCMI.singleExclude) == "function") {
+                    if (thisTCMI.singleExclude(this.href)) {
+                        return;
+                    }
+                } else if (thisTCMI.singleExclude !== null) {
+                    if (this.href.match(thisTCMI.singleExclude)) {
+                        return;
+                    }
                 }
                 
                 // Hijack the click so we can load

@@ -106,6 +106,31 @@ Options:
 * Default: `true`
 
 
+`singleFilter`
+
+* A string, RegExp or function to determine if a link should be hijacked when
+  `singlePage === true`
+* If it is a string or RegExp, a match will mean the link can be hijacked; if
+  it does not match, the link will load as normal
+* If it is a function, it will be passed the `href`, and must return a boolean;
+  if it returns true the link can be hijacked, if false the link will load as
+  normal
+* This is after links to other domains are already filtered out, but before
+  `singleExclude` is checked
+* Set to null to allow all
+* Default: `new RegExp('(/|(^|/)[^\\.]+|\\.html?|\\.php)($|\\?)')`
+  * That is anything ending in a `/`, any path that ends without a file
+    extension (ie `/path/to/page`), or `.html`, `.htm` and `.php`
+
+
+`singleExclude`
+
+* Like `singleFilter`, only in reverse - a match means that the file will not
+  be hijacked.
+* Set to null to allow all
+* Default: `null`
+
+
 `autoPlay`
 
 * Boolean. If `true`, the music will start playing as soon as the page loads.
@@ -124,7 +149,7 @@ Options:
 
 `onPage`
 
-* Callback at the start of a page request when `singlePage == true`.
+* Callback at the start of a page request when `singlePage === true`.
 * Passed a single argument, the `href` of the page being requested.
 * You could set this if you want to replace page content with a loading spinner
   - just make sure to hide it and re-display the old content in `onError`.
@@ -198,7 +223,10 @@ available as attributes - they are all jQuery objects:
 Changelog
 ---------
 
-2.0.1 (2013-12-03)
+2.2.0 (2013-12-03)
+* Control which pages are hijacked with `singleFilter` and `singleExclude`
+
+2.1.0 (2013-12-03)
 * Specify starting track with `firstTrack`
 
 2.0.0 (2013-12-02)
