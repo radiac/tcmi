@@ -14,7 +14,7 @@ Christmas is a time of joy, and what better way to spread joy than to force
 your website visitors to listen to Christmas music?
 
 TCMI adds a simple interface to your page, plays MP3 or OGG files at your
-visitors, and 
+visitors, and fills them with Christmas spirit.
 
 
 
@@ -30,9 +30,9 @@ Adding TCMI to your site
      setting `path` in `TCMI_conf` (see [Configuring TCMI](#configuring-tcmi)
      below).
    * Bear in mind you're responsible for any licensing issues
-   * An excellent set of tacky christmas music can be downloaded from
+   * An excellent collection of tacky christmas music can be downloaded from
      http://radiac.net/projects/tcmi/
-   * Top ffmpeg tip: to convert MP3 files to OGG, try:
+   * Top tip: to convert MP3 files to OGG, try:
      ``ffmpeg -i "mytrack.mp3" -acodec libvorbis "mytrack.ogg"``
 
 3. Now just load the code and CSS in the `head` of each page, and configure it
@@ -87,6 +87,13 @@ Options:
 * Default: `[]`
 
 
+`firstTrack`
+
+* Index of first track to play, starting at `0`
+* Allows you to specify a play order in `tracks`
+* Default: `0`
+
+
 `singlePage`
 
 * Boolean. If `true`, keep the site on a single page
@@ -99,7 +106,7 @@ Options:
 * Default: `true`
 
 
-`autoplay`
+`autoPlay`
 
 * Boolean. If `true`, the music will start playing as soon as the page loads.
   It is highly recommended that you help your visitors get into the Christmas
@@ -139,8 +146,19 @@ Example configuration:
             ["deckhall", "Deck The Halls"],
             ["jinglebells", "Jingle Bells"]
         ],
+        firstTrack: 1, // jinglebells
         singlePage: false,
-        onError: myErrorHandler
+        onPage: function (href) {
+            $('main')
+                .hide()
+                .after('<div class="loading">Loading...</div>')
+            ;
+        },
+        onError: function (msg) {
+            $('main').show();
+            $('.loading').remove();
+            showMessage(msg, 'error');
+        }
     };
 
 
@@ -175,6 +193,16 @@ available as attributes - they are all jQuery objects:
 * `$play` - the play button
 * `$pause` - the pause button
 * `$sel` - the select element
+
+
+Changelog
+---------
+
+2.0.1 (2013-12-03)
+* Specify starting track with `firstTrack`
+
+2.0.0 (2013-12-02)
+* Initial release
 
 
 Credits

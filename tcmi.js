@@ -17,22 +17,29 @@
             // Array of track tuples, [filename, title]
             tracks: [],
             
+            // Index of first track to play
+            firstTrack: 0,
+            
             // Keep the site on a single page.
             // Hijacks clicks on <a> tags, to load same-domain pages without
             // changing the page.
             // Set this to false if your site already does this
             singlePage: true,
             
-            // Autoplay the first track
-            autoplay: true,
+            // Auto play the first track
+            autoPlay: true,
             
             // Callback to customise the TCMI elements
             onBuild: null,
             
             // Callback at the start of a page request (when singlePage==true)
+            // Arguments:
+            //      href    URL of page being loaded
             onPage: null,
             
             // Callback to display errors
+            // Arguments:
+            //      msg     String message
             onError: function (msg) { alert(msg); }
         }
     ;
@@ -52,6 +59,9 @@
         if (this.tracks.length === 0) {
             this.onError('No TCMI tracks defined');
         }
+        
+        // First track must be valid
+        this.firstTrack = Math.min(this.firstTrack, this.tracks.length-1);
         
         // Initialise
         this.build();
@@ -82,7 +92,7 @@
             this.audio.canPlayType('audio/ogg; codecs="vorbis"') !== ""
         ) ? '.ogg' : '.mp3';
         
-        if (this.autoplay) {
+        if (this.autoPlay) {
             this.load();
         }
         
@@ -112,6 +122,7 @@
                     .appendTo($sel)
                 ;
             }
+            $sel.val(this.firstTrack);
             
             // Allow user to customise the build
             if (this.onBuild) {
@@ -159,6 +170,7 @@
             if (this.onPage) {
                 this.onPage(href);
             }
+            
             $('body').load(href, function (response, status, xhr) {
                 if (status == 'error') {
                     thisTCMI.onError('Could not load page: ' + xhr.status + " " + xhr.statusText);
@@ -176,7 +188,7 @@
         },
         _load: function () {
             if (this.track === null) {
-                this.track = 0;
+                this.track = this.firstTrack;
             }
             this.audio.setAttribute(
                 'src',
@@ -196,7 +208,7 @@
             this.load();
         },
         play: function () {
-            // Load if autoplay is off
+            // Load if autoPlay is off
             if (this.track === null) {
                 this._load();
             }
