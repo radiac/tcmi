@@ -228,6 +228,9 @@ available as attributes - they are all jQuery objects:
 Changelog
 ---------
 
+2.2.2 (2013-12-04)
+* Title now updates on page load
+
 2.2.1 (2013-12-04)
 * Changed `play()` to update display when the play event fires - should work
   correctly when autoplay isn't available (ie in Android/iOS)

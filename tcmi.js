@@ -213,6 +213,9 @@
                     return;
                 }
                 
+                // Update title
+                $('head title').text($('body title').text());
+                
                 // Log history
                 if (!isPopstate) {
                     window.history.pushState({href: href}, "", href);
