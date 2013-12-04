@@ -36,7 +36,7 @@ Adding TCMI to your site
      ``ffmpeg -i "mytrack.mp3" -acodec libvorbis "mytrack.ogg"``
 
 3. Now just load the code and CSS in the `head` of each page, and configure it
-- see [Configuring TCMI](#configuring-tcmi) below
+   - see [Configuring TCMI](#configuring-tcmi) below.
 
 Example:
 
@@ -58,9 +58,10 @@ Example:
 * TCMI requires jQuery, so if your site doesn't already use that you'll need
   to get it from http://jquery.com/download/
 * If you want the classic TCMI 1.0 look, use `tcmi-classic.css` instead of
-  `tcmi.css`.
+  `tcmi.css`. If you want to run it in a frame, create a page with just the
+  TCMI and set `singlePage` to `false`.
 * If you want to interact with TCMI from your own code, you can access it on
-  `window.TCMI`. See the [Internals section](#internals) below to see what you
+  `window.TCMI`. See [Internals](#internals) below to see what you
   can do.
 
 
@@ -102,7 +103,8 @@ Options:
   is on your site.
 * This will have no effect on form submissions - they will make your music
   restart.
-* Set this to `false` if you don't want TCMI to interfere with links.
+* Set this to `false` if you don't want TCMI to interfere with links, or want
+  to run it on its own page (ie in a frame).
 * Default: `true`
 
 
@@ -220,8 +222,16 @@ available as attributes - they are all jQuery objects:
 * `$sel` - the select element
 
 
+
+
+
 Changelog
 ---------
+
+2.2.1 (2013-12-04)
+* Changed `play()` to update display when the play event fires - should work
+  correctly when autoplay isn't available (ie in Android/iOS)
+* Fixed `next()` to update displayed track name
 
 2.2.0 (2013-12-03)
 * Control which pages are hijacked with `singleFilter` and `singleExclude`

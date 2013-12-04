@@ -78,10 +78,13 @@
         this.render();
         this.audio = new Audio();
         $(this.audio)
-            .bind('ended', function (e) {
+            .on('play', function (e) {
+                thisTCMI._playing();
+            })
+            .on('ended', function (e) {
                 thisTCMI.next();
             })
-            .bind('error', function (e) {
+            .on('error', function (e) {
                 var err = e.target.error,
                     msg
                 ;
@@ -108,7 +111,7 @@
         
         // Manage page history
         if (this.singlePage) {
-            $(window).bind('popstate', function (e) {
+            $(window).on('popstate', function (e) {
                 thisTCMI.openPage(e.originalEvent.state.href, true);
             });
         }
@@ -238,6 +241,7 @@
             if (this.track >= this.tracks.length) {
                 this.track = 0;
             }
+            this.$sel.val(this.track);
             this.load();
         },
         play: function () {
@@ -246,6 +250,8 @@
                 this._load();
             }
             this.audio.play();
+        },
+        _playing: function () {
             this.$con.addClass('playing');
             this.$play.hide();
             this.$pause.show();
