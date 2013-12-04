@@ -35,24 +35,24 @@ Adding TCMI to your site
    * Top tip: to convert MP3 files to OGG, try:
      ``ffmpeg -i "mytrack.mp3" -acodec libvorbis "mytrack.ogg"``
 
-3. Now just load the code and CSS in the `head` of each page, and configure it
-   - see [Configuring TCMI](#configuring-tcmi) below.
+3. Now just load the code and CSS in the `head` of each page, and configure it;
+   see [Configuring TCMI](#configuring-tcmi) below.
 
-Example:
+   Example:
 
-    <head>
-        ...
-        <script src="/js/jquery-1.10.2.min.js"></script>
-        ...
-        <link rel="stylesheet" href="tcmi/tcmi.css" type="text/css" />
-        <script src="/tcmi/tcmi.min.js"></script>
-        <script>
-            window.TCMI_conf = {
-                // See configuration options below
-            }
-        </script>
-        ...
-    </head>
+         <head>
+            ...
+            <script src="/js/jquery-1.10.2.min.js"></script>
+            ...
+            <link rel="stylesheet" href="tcmi/tcmi.css" type="text/css" />
+            <script src="/tcmi/tcmi.min.js"></script>
+            <script>
+               window.TCMI_conf = {
+                  // See configuration options below
+               }
+            </script>
+            ...
+         </head>
 
 
 * TCMI requires jQuery, so if your site doesn't already use that you'll need
