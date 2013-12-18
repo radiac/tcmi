@@ -105,7 +105,7 @@
             this.audio.canPlayType('audio/ogg; codecs="vorbis"') !== ""
         ) ? '.ogg' : '.mp3';
         
-        if (this.autoPlay) {
+        if (this.autoPlay && getCookie('tcmip', true).toString() === 'true') {
             this.load();
         }
         
@@ -119,6 +119,7 @@
     TCMI.prototype = $.extend(TCMI.prototype, {
         $con:   null,
         track:  null,
+        playing: false,
         build: function() {
             // Build container and elements
             var $con = this.$con = $('<div id="tcmi"/>'),
@@ -168,8 +169,8 @@
                 domain = window.location.protocol + '//' + window.location.host + '/'
             ;
             $('a').click(function (e) {
-                // Ignore if not an href link, or an external href
-                if (!this.href || this.href.indexOf(domain) === -1) {
+                // Ignore if not playing, not an href link, or an external href
+                if (!this.playing || !this.href || this.href.indexOf(domain) === -1) {
                     return;
                 }
                 
@@ -203,6 +204,7 @@
         },
         openPage: function (href, isPopstate) {
             var thisTCMI = this;
+
             if (this.onPage) {
                 this.onPage(href);
             }
@@ -258,15 +260,40 @@
             this.$con.addClass('playing');
             this.$play.hide();
             this.$pause.show();
+            this.playing = true;
+            setCookie('tcmip', true);
         },
         pause: function () {
             this.audio.pause();
             this.$con.removeClass('playing');
             this.$play.show();
             this.$pause.hide();
+            this.playing = false;
+            setCookie('tcmip', false);
         }
     });
+
+    function setCookie(key, value) {
+        /** Set the cookie */
+        var expires = new Date();
+        expires.setDate(expires.getDate() + 3650);
+        document.cookie = [
+            encodeURIComponent(key), '=', value,
+            '; expires=' + expires.toUTCString(),
+            '; path=/',
+            (window.location.protocol == 'https:') ? '; secure' : ''
+        ].join('');
+    }
     
+    function getCookie(key, defaultValue) {
+        /** Get all cookies */
+        var pairs = document.cookie.split('; ');
+        for (var i=0, pair; pair=pairs[i] && pairs[i].split('='); i++) {
+            if (decodeURIComponent(pair[0]) === key) return pair[1];
+        }
+        return defaultValue;
+    }
+
     // Initialise TCMI once when page is ready
     $(function () {
         if (!!window.TCMI) {

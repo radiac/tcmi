@@ -203,6 +203,7 @@ Attributes you may find useful:
 * `next()` - play the next track
 * `load()` - load and play the current track
 * `track` - the index of the current track
+* `playing` - boolean for whether TCMI is playing or not
 * All configuration options are available as attributes, ie `path`, `tracks` etc
 
 For example, if you want to have a pause button somewhere else on your page:
@@ -223,10 +224,12 @@ available as attributes - they are all jQuery objects:
 
 
 
-
-
 Changelog
 ---------
+
+2.3.0 (2013-12-18)
+* Memory of play state stored in `tcmip` cookie for next visit
+* Link hijacking is disabled when not playing
 
 2.2.2 (2013-12-04)
 * Title now updates on page load
