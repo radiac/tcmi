@@ -135,9 +135,13 @@ Options:
 
 `autoPlay`
 
-* Boolean. If `true`, the music will start playing as soon as the page loads.
-  It is highly recommended that you help your visitors get into the Christmas
-  spirit by setting this to true.
+* A boolean or function to determine if the music will start playing as soon as
+  the page loads.
+* If `true`, start playing immediately.
+* If it is a function, it should return a truthy value to start playing
+  immediately.
+* It is highly recommended that you help your visitors get into the Christmas
+  spirit by setting this to ``true``.
 * Default: `true`
 
 
@@ -226,6 +230,11 @@ available as attributes - they are all jQuery objects:
 
 Changelog
 ---------
+
+2.4.0 (2015-11-30)
+* Changed autoPlay option to support a callback function
+* Fixed bug where controls didn't work after page changed in single page mode
+* Fixed bug where single page mode would not be enabled correctly
 
 2.3.0 (2013-12-18)
 * Memory of play state stored in `tcmip` cookie for next visit

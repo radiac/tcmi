@@ -106,7 +106,14 @@
         ) ? '.ogg' : '.mp3';
         
         if (this.autoPlay && getCookie('tcmip', true).toString() === 'true') {
-            this.load();
+            // Check if autoPlay really is on
+            var autoPlay = this.autoPlay;
+            if (typeof(autoPlay) == "function") {
+                autoPlay = autoPlay();
+            }
+            if (autoPlay) {
+                this.load();
+            }
         }
         
         // Manage page history
@@ -168,9 +175,10 @@
             var thisTCMI = this,
                 domain = window.location.protocol + '//' + window.location.host + '/'
             ;
+            
             $('a').click(function (e) {
                 // Ignore if not playing, not an href link, or an external href
-                if (!this.playing || !this.href || this.href.indexOf(domain) === -1) {
+                if (!thisTCMI.playing || !this.href || this.href.indexOf(domain) === -1) {
                     return;
                 }
                 
@@ -209,11 +217,15 @@
                 this.onPage(href);
             }
             
-            $('body').load(href, function (response, status, xhr) {
+            $.get(href, function (response, status, xhr) {
                 if (status == 'error') {
                     thisTCMI.onError('Could not load page: ' + xhr.status + " " + xhr.statusText);
                     return;
                 }
+                
+                // Detach TCMI element and replace page body
+                thisTCMI.$con.detach();
+                $('body').html(response);
                 
                 // Update title
                 $('head title').text($('body title').text());
